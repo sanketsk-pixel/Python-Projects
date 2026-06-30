@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentiment Readout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="chassis">
+
+  <header class="panel-top">
+    <p class="eyebrow">Sentiment Readout</p>
+    <h1>What's the tone<br>of your words?</h1>
+    <p class="sub">Paste a review, a tweet, a journal entry — anything with words.
+      The instrument reads its polarity and subjectivity instantly.</p>
+  </header>
+
+  <main class="console">
+
+    <section class="input-panel">
+      <label for="text-input">Your text</label>
+      <textarea id="text-input" maxlength="5000"
+        placeholder="e.g. &quot;The new update is honestly a huge improvement, everything feels faster.&quot;"></textarea>
+      <div class="input-row">
+        <span class="char-count" id="char-count">0 / 5000</span>
+        <button id="analyze-btn" class="lever" type="button">
+          <span class="lever-label">Analyze</span>
+        </button>
+      </div>
+      <p class="error-text" id="error-text" hidden></p>
+    </section>
+
+    <section class="readout-panel" id="placeholder">
+      <div class="placeholder-mark">~</div>
+      <p>Awaiting input. Your reading will appear here once you analyze some text.</p>
+    </section>
+
+    <section class="readout-panel" id="readout" hidden>
+
+      <div class="badge-row">
+        <span class="badge" id="sentiment-badge">NEUTRAL</span>
+        <span class="word-count" id="word-count-text">0 words</span>
+      </div>
+
+      <div class="gauge-block">
+        <svg class="gauge" viewBox="0 0 240 138" aria-hidden="true">
+          <!-- color zones -->
+          <path d="M 24,120 A 96,96 0 0 1 104.98,25.18" class="zone zone-negative"></path>
+          <path d="M 104.98,25.18 A 96,96 0 0 1 135.02,25.18" class="zone zone-neutral"></path>
+          <path d="M 135.02,25.18 A 96,96 0 0 1 216,120" class="zone zone-positive"></path>
+
+          <!-- tick labels -->
+          <text x="8" y="124" class="tick">−1</text>
+          <text x="40.8" y="44.8" class="tick">−0.5</text>
+          <text x="120" y="22" class="tick" text-anchor="middle">0</text>
+          <text x="199.2" y="44.8" class="tick">0.5</text>
+          <text x="220" y="124" class="tick">1</text>
+
+          <!-- needle -->
+          <line id="needle" x1="120" y1="120" x2="120" y2="28" class="needle"></line>
+          <circle cx="120" cy="120" r="7" class="pivot"></circle>
+        </svg>
+        <div class="gauge-readout">
+          <span class="gauge-value" id="polarity-value">0.00</span>
+          <span class="gauge-caption">Polarity</span>
+        </div>
+      </div>
+
+      <div class="bar-block">
+        <div class="bar-labels">
+          <span>Fact</span>
+          <span id="subjectivity-value">0.00</span>
+          <span>Opinion</span>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" id="subjectivity-fill"></div>
+          <div class="bar-needle" id="subjectivity-needle"></div>
+        </div>
+        <span class="gauge-caption center">Subjectivity</span>
+      </div>
+
+      <p class="interpretation" id="interpretation-text"></p>
+
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Built with Flask &amp; TextBlob</p>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
